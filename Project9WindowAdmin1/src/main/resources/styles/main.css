@@ -1,0 +1,22 @@
+ .text-input{
+    -fx-text-fill: #fafafa;
+    -fx-background-color: #343434;
+    -fx-border-color: #fafafa;
+    -fx-border-radius: 10;
+
+}
+ .button{
+    -fx-background-color: #e06249;
+    -fx-border-radius: 10;
+
+
+}
+/*
+ .button:pressed{
+}
+
+.text-input:focused {
+  -fx-border-color: #e06249;
+
+}
+*/
