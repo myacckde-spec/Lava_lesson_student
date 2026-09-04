@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторизация - itShop</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">itShop</div>
+            <div class="navbar-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/about" class="nav-link">Про нас</a>
+                <a href="/login" class="nav-link active">Войти</a>
+                <a href="/register" class="nav-link">Регистрация</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <h2>Авторизация</h2>
+            
+            <div th:if="${param.error}" class="alert alert-error">
+                Неверный логин или пароль
+            </div>
+            <div th:if="${param.logout}" class="alert alert-success">
+                Вы успешно вышли
+            </div>
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+            <form method="POST" action="/login">
+                <div class="form-group">
+                    <label for="username">Логин:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Пароль:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Войти</button>
+            </form>
+
+            <p class="auth-link">
+                Нет аккаунта? <a href="/register">Зарегистрируйтесь</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

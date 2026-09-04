@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кабинет пользователя - itShop</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">itShop</div>
+            <div class="navbar-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/about" class="nav-link">Про нас</a>
+                <a href="/user" class="nav-link active">Кабинет</a>
+                <a href="/admin" th:if="${#authorization.expression('hasRole(\"ADMIN\")')}" class="nav-link">Панель админа</a>
+                <form action="/logout" method="POST" style="display:inline;">
+                    <button type="submit" class="nav-link logout-btn">Выйти</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container cabinet">
+        <div class="cabinet-header">
+            <h1>Кабинет пользователя</h1>
+            <p th:text="'Привет, ' + ${#authentication.name}">Привет, пользователь</p>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <div class="edit-profile-section">
+            <h2>Редактирование данных</h2>
+            <form method="POST" action="/user/update" class="edit-form">
+                <div class="form-group">
+                    <label for="username">Логин:</label>
+                    <input type="text" id="username" name="username" th:value="${user.username}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" th:value="${user.email}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Новый пароль (оставьте пусто, если не хотите менять):</label>
+                    <input type="password" id="password" name="password">
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Роль на сайте:</label>
+                    <select id="role" name="role" disabled>
+                        <option th:each="r : ${roles}" th:value="${r}" th:text="${r}" th:selected="${user.role == r}"></option>
+                    </select>
+                    <small>Роль может быть изменена только администратором</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

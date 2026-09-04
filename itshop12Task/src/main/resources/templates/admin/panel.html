@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель администратора - itShop</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">itShop</div>
+            <div class="navbar-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/about" class="nav-link">Про нас</a>
+                <a href="/admin/add-product" class="nav-link">Добавить товар</a>
+                <a href="/user" class="nav-link">Кабинет</a>
+                <a href="/admin" class="nav-link active">Панель админа</a>
+                <form action="/logout" method="POST" style="display:inline;">
+                    <button type="submit" class="nav-link logout-btn">Выйти</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container admin-panel">
+        <h1>Панель админа</h1>
+        <h2>Все пользователи</h2>
+
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+        <div class="users-list">
+            <div th:each="user : ${users}" class="user-card">
+                <div class="user-info">
+                    <h3 th:text="'Пользователь: ' + ${user.username}">Пользователь</h3>
+                    <p th:text="'Email: ' + ${user.email}">Email</p>
+                    <p th:text="'Роль на сайте: ' + ${user.role.name()}">Роль</p>
+                </div>
+                
+                <div class="user-actions">
+                    <form method="POST" th:action="'/admin/user/' + ${user.id} + '/update-role'" class="role-form">
+                        <select name="role">
+                            <option th:each="role : ${T(com.itproger.itshop.entity.User.Role).values()}" 
+                                    th:value="${role}" 
+                                    th:text="${role}"
+                                    th:selected="${user.role == role}"></option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary">Обновить роль</button>
+                    </form>
+                </div>
+
+                <div class="user-products">
+                    <p><strong>Товары автора:</strong></p>
+                    <ul th:if="${#lists.size(user.products) > 0}">
+                        <li th:each="product : ${user.products}" th:text="${product.name}">Товар</li>
+                    </ul>
+                    <p th:if="${#lists.isEmpty(user.products)}">Товаров нет</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас - itShop</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">itShop</div>
+            <div class="navbar-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/about" class="nav-link active">Про нас</a>
+                <div sec:authorize="!isAuthenticated()">
+                    <a href="/login" class="nav-link">Войти</a>
+                    <a href="/register" class="nav-link">Регистрация</a>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <a href="/user" class="nav-link">Кабинет</a>
+                    <a href="/admin" th:if="${#authorization.expression('hasRole(\"ADMIN\")')}" class="nav-link">Панель админа</a>
+                    <form action="/logout" method="POST" style="display:inline;">
+                        <button type="submit" class="nav-link logout-btn">Выйти</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container about">
+        <h1>О нас</h1>
+        <p>Добро пожаловать на itShop - ваш лучший источник стильных и качественных товаров для программистов!</p>
+        <p>Мы предлагаем уникальную коллекцию товаров, которые помогут вам выглядеть стильно и показать свою страсть к программированию.</p>
+    </div>
+</body>
+</html>

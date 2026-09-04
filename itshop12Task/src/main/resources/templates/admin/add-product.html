@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить товар - itShop</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">itShop</div>
+            <div class="navbar-menu">
+                <a href="/" class="nav-link">Главная</a>
+                <a href="/about" class="nav-link">Про нас</a>
+                <a href="/admin/add-product" class="nav-link active">Добавить товар</a>
+                <a href="/user" class="nav-link">Кабинет</a>
+                <a href="/admin" class="nav-link">Панель админа</a>
+                <form action="/logout" method="POST" style="display:inline;">
+                    <button type="submit" class="nav-link logout-btn">Выйти</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="add-product-box">
+            <h2>Добавить новый товар</h2>
+            
+            <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+            <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+            <form method="POST" action="/admin/add-product" class="product-form">
+                <div class="form-group">
+                    <label for="name">Название товара:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Описание:</label>
+                    <textarea id="description" name="description" rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Цена ($):</label>
+                    <input type="number" id="price" name="price" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="authorId">Автор:</label>
+                    <input type="number" id="authorId" name="authorId" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Добавить товар</button>
+                <a href="/admin" class="btn btn-secondary">Отмена</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
